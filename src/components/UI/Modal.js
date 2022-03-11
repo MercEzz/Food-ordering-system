@@ -11,6 +11,7 @@ const Backdrop = (props) => {
       h="100vh"
       zIndex="20"
       bgColor="rgba(0,0,0, 0.75)"
+      onClick={props.onCLose}
     />
   );
 };
@@ -38,7 +39,10 @@ const portalElement = document.getElementById("overlays");
 const Modal = (props) => {
   return (
     <>
-      {ReactDOM.createPortal(<Backdrop />, portalElement)}
+      {ReactDOM.createPortal(
+        <Backdrop onClose={props.onClick} />,
+        portalElement
+      )}
       {ReactDOM.createPortal(
         <ModalOverlay>{props.children}</ModalOverlay>,
         portalElement

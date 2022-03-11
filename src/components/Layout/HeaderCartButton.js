@@ -1,7 +1,7 @@
 import { Badge, Box, Button, Icon, Text } from "@chakra-ui/react";
 import { BsCart2 } from "react-icons/bs";
 
-const HeaderCartButton = () => {
+const HeaderCartButton = (props) => {
   return (
     <Button
       cursor="pointer"
@@ -17,6 +17,7 @@ const HeaderCartButton = () => {
       fontWeight="bold"
       _hover={{ bgColor: "grey.400" }}
       _active={{ bgColor: "grey.400" }}
+      nClick={props.onClick}
     >
       <Box w="1.35rem" h="1.35rem" mr="0.5rem">
         <Icon as={BsCart2} />

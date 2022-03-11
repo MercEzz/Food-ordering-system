@@ -3,7 +3,7 @@ import { Box, Flex, Heading, Image } from "@chakra-ui/react";
 import mealImg from "../../assets/meals.jpg";
 import HeaderCartButton from "./HeaderCartButton";
 
-const Header = () => {
+const Header = (props) => {
   return (
     <>
       <Flex
@@ -22,7 +22,7 @@ const Header = () => {
         zIndex="10"
       >
         <Heading size="xl">Meals</Heading>
-        <HeaderCartButton />
+        <HeaderCartButton onClick={props.onShowCart} />
       </Flex>
       <Box w="100%" h="25rem" zIndex="0" overflow="hidden">
         <Image

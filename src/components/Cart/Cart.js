@@ -19,7 +19,7 @@ const Cart = (props) => {
 
   return (
     <>
-      <Modal>
+      <Modal onClose={props.onClose}>
         {carItems}
         <Flex
           display="flex"
@@ -48,6 +48,7 @@ const Cart = (props) => {
               color: "white",
             }}
             _active={{ bgColor: "grey", borderColor: "grey", color: "white" }}
+            onClick={props.onClose}
           >
             Close
           </Button>
