@@ -1,12 +1,15 @@
-import { Flex, Input, Text } from "@chakra-ui/react";
+import React from "react";
 
-const InputI = (props) => {
+import { Flex, FormLabel, Input } from "@chakra-ui/react";
+
+const InputI = React.forwardRef((props, ref) => {
   return (
     <Flex display="flex" alignItems="center" mb="0.5rem">
-      <Text fontWeight="bold" mr="1rem">
+      <FormLabel htmlFor={props.input.id} fontWeight="bold" mr="1rem">
         {props.label}
-      </Text>
+      </FormLabel>
       <Input
+        ref={ref}
         {...props.input}
         size="sm"
         w="3rem"
@@ -17,6 +20,6 @@ const InputI = (props) => {
       />
     </Flex>
   );
-};
+});
 
 export default InputI;

@@ -3,7 +3,7 @@ import { Box, Text, Heading } from "@chakra-ui/react";
 const MealSummary = () => {
   return (
     <Box
-      text-textAlign="center"
+      textAlign="center"
       maxW="45rem"
       w="90%"
       m="auto"

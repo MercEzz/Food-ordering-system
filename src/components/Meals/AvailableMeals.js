@@ -1,4 +1,4 @@
-import { Box, ListItem, UnorderedList } from "@chakra-ui/react";
+import { Box, UnorderedList } from "@chakra-ui/react";
 import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
 
@@ -38,7 +38,6 @@ const AvailableMeals = () => {
       description={meal.description}
       price={meal.price}
     />
-    // <ListItem>{meal.name}</ListItem>
   ));
 
   return (

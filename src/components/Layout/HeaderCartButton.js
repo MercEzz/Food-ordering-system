@@ -1,9 +1,38 @@
 import { Badge, Box, Button, Icon, Text } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import { useContext, useEffect, useState } from "react";
 import { BsCart2 } from "react-icons/bs";
+import CartContext from "../../store/cart-context";
+
+const MotionBtn = motion(Button);
 
 const HeaderCartButton = (props) => {
+  const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
+  const cartCtx = useContext(CartContext);
+
+  const { items } = cartCtx;
+
+  const numberOfCartItems = items.reduce((curNumber, item) => {
+    return curNumber + item.amount;
+  }, 0);
+
+  useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+    setBtnIsHighlighted(true);
+
+    const timer = setTimeout(() => {
+      setBtnIsHighlighted(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [items]);
+
   return (
-    <Button
+    <MotionBtn
       cursor="pointer"
       fontStyle="inherit"
       border="none"
@@ -17,7 +46,7 @@ const HeaderCartButton = (props) => {
       fontWeight="bold"
       _hover={{ bgColor: "grey.400" }}
       _active={{ bgColor: "grey.400" }}
-      nClick={props.onClick}
+      onClick={props.onClick}
     >
       <Box w="1.35rem" h="1.35rem" mr="0.5rem">
         <Icon as={BsCart2} />
@@ -32,9 +61,9 @@ const HeaderCartButton = (props) => {
         _hover={{ bgColor: "grey.200" }}
         _active={{ bgColor: "grey.200" }}
       >
-        3
+        {numberOfCartItems}
       </Badge>
-    </Button>
+    </MotionBtn>
   );
 };
 

@@ -1,8 +1,21 @@
 import { Box, ListItem, Text } from "@chakra-ui/react";
+import { useContext } from "react";
+import CartContext from "../../../store/cart-context";
 import MealItemForm from "./MealItemForm";
 
 const MealItem = (props) => {
+  const cartCtx = useContext(CartContext);
+
   const price = `$${props.price.toFixed(2)}`;
+
+  const addToCarthandler = (amount) => {
+    cartCtx.addItem({
+      id: props.id,
+      name: props.name,
+      amount: amount,
+      price: props.price,
+    });
+  };
 
   return (
     <ListItem
@@ -27,7 +40,7 @@ const MealItem = (props) => {
         </Text>
       </Box>
       <Box>
-        <MealItemForm id={props.id} />
+        <MealItemForm id={props.id} onAddToCart={addToCarthandler} />
       </Box>
     </ListItem>
   );
