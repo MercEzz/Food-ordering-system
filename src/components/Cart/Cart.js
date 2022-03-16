@@ -6,6 +6,8 @@ import CartItem from "./CartItem";
 import Checkout from "./Checkout";
 
 const Cart = (props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
   const [isCheckout, setIsCheckout] = useState(false);
   const cartCtx = useContext(CartContext);
 
@@ -21,6 +23,23 @@ const Cart = (props) => {
 
   const orderHandler = () => {
     setIsCheckout(true);
+  };
+
+  const submitOrderHandler = async (userData) => {
+    setIsSubmitting(true);
+    await fetch(
+      `https://react-http-f6cf9-default-rtdb.firebaseio.com/orders.json`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          user: userData,
+          orderedItems: cartCtx.items,
+        }),
+      }
+    );
+    setIsSubmitting(false);
+    setDidSubmit(true);
+    cartCtx.clearCart();
   };
 
   const carItems = (
@@ -93,23 +112,60 @@ const Cart = (props) => {
     </Box>
   );
 
+  const cartModalContent = (
+    <>
+      {carItems}
+      <Flex
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        fontWeight="bold"
+        fontSize="1.5rem"
+        m="1rem 0"
+      >
+        <Text>Total Amount</Text>
+        <Text>{totalAmount}</Text>
+      </Flex>
+      {isCheckout && (
+        <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />
+      )}
+      {!isCheckout && modalActions}
+    </>
+  );
+
+  const isSubmittingModalContent = <Text>Sending order data...</Text>;
+
+  const didSubmitModalContent = (
+    <>
+      <Text>Successfully sent the order!</Text>
+      <Button
+        fontStyle="inherit"
+        cursor="pointer"
+        bgColor="transparent"
+        color="grey.500"
+        border="1px solid grey.500"
+        p="0.5rem 2rem"
+        borderRadius="25px"
+        ml="1rem"
+        _hover={{
+          bgColor: "grey",
+          borderColor: "grey",
+          color: "white",
+        }}
+        _active={{ bgColor: "grey", borderColor: "grey", color: "white" }}
+        onClick={props.onClose}
+      >
+        Close
+      </Button>
+    </>
+  );
+
   return (
     <>
       <Modal onClose={props.onClose}>
-        {carItems}
-        <Flex
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          fontWeight="bold"
-          fontSize="1.5rem"
-          m="1rem 0"
-        >
-          <Text>Total Amount</Text>
-          <Text>{totalAmount}</Text>
-        </Flex>
-        {isCheckout && <Checkout onCancel={props.onClose} />}
-        {!isCheckout && modalActions}
+        {!isSubmitting && !didSubmit && cartModalContent}
+        {isSubmitting && isSubmittingModalContent}
+        {!isSubmitting && didSubmit && didSubmitModalContent}
       </Modal>
     </>
   );

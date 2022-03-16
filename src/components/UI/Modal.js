@@ -11,7 +11,7 @@ const Backdrop = (props) => {
       h="100vh"
       zIndex="20"
       bgColor="rgba(0,0,0, 0.75)"
-      onClick={props.onCLose}
+      onClick={props.onClose}
     />
   );
 };
@@ -20,7 +20,7 @@ const ModalOverlay = (props) => {
   return (
     <Box
       pos="fixed"
-      top="20vh"
+      top="15vh"
       left={{ base: "5%", lg: "calc(50% - 20rem)" }}
       w={{ base: "90%", lg: "40rem" }}
       bgColor="white"
@@ -28,6 +28,8 @@ const ModalOverlay = (props) => {
       borderRadius="14px"
       boxShadow="0 2px 8px rgba(0,0,0, 0.25)"
       zIndex="30"
+      overflow="auto"
+      maxH="35rem"
     >
       {props.children}
     </Box>

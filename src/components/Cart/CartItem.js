@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Heading, ListItem, Text } from "@chakra-ui/react";
 
 const CartItem = (props) => {
-  const price = `$${props.price.toFixed(2)}`;
+  const price = `$${props.price}`;
 
   return (
     <ListItem
