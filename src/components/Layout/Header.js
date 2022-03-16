@@ -28,10 +28,10 @@ const Header = (props) => {
         <Image
           src={mealImg}
           alt="A table full of delicious food!"
-          w="110%"
+          minW="110%"
           h="100%"
           objectFit="cover"
-          // transform={"rotateZ(-5deg) translateY(-4rem) translateX(-1rem)"}
+          transform={"rotateZ(-5deg) translateY(-4rem) translateX(-1rem)"}
         />
       </Box>
     </>

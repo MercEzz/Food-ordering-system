@@ -1,10 +1,12 @@
 import { Flex, UnorderedList, Text, Box, Button } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CartContext from "../../store/cart-context";
 import Modal from "../UI/Modal";
 import CartItem from "./CartItem";
+import Checkout from "./Checkout";
 
 const Cart = (props) => {
+  const [isCheckout, setIsCheckout] = useState(false);
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -15,6 +17,10 @@ const Cart = (props) => {
   };
   const cartItemAddHandler = (item) => {
     cartCtx.addItem({ ...item, amount: 1 });
+  };
+
+  const orderHandler = () => {
+    setIsCheckout(true);
   };
 
   const carItems = (
@@ -38,6 +44,55 @@ const Cart = (props) => {
     </UnorderedList>
   );
 
+  const modalActions = (
+    <Box textAlign="right">
+      <Button
+        fontStyle="inherit"
+        cursor="pointer"
+        bgColor="transparent"
+        color="grey.500"
+        border="1px solid grey.500"
+        p="0.5rem 2rem"
+        borderRadius="25px"
+        ml="1rem"
+        _hover={{
+          bgColor: "grey",
+          borderColor: "grey",
+          color: "white",
+        }}
+        _active={{ bgColor: "grey", borderColor: "grey", color: "white" }}
+        onClick={props.onClose}
+      >
+        Close
+      </Button>
+      {hasItems && (
+        <Button
+          fontStyle="inherit"
+          cursor="pointer"
+          bgColor="grey"
+          color="white"
+          border="1px solid grey.500"
+          p="0.5rem 2rem"
+          borderRadius="25px"
+          ml="1rem"
+          _hover={{
+            bgColor: "white",
+            borderColor: "grey",
+            color: "grey",
+          }}
+          _active={{
+            bgColor: "grey",
+            borderColor: "grey",
+            color: "white",
+          }}
+          onClick={orderHandler}
+        >
+          Order
+        </Button>
+      )}
+    </Box>
+  );
+
   return (
     <>
       <Modal onClose={props.onClose}>
@@ -53,43 +108,8 @@ const Cart = (props) => {
           <Text>Total Amount</Text>
           <Text>{totalAmount}</Text>
         </Flex>
-        <Box textAlign="right">
-          <Button
-            fontStyle="inherit"
-            cursor="pointer"
-            bgColor="transparent"
-            color="grey.500"
-            border="1px solid grey.500"
-            p="0.5rem 2rem"
-            borderRadius="25px"
-            ml="1rem"
-            _hover={{
-              bgColor: "grey",
-              borderColor: "grey",
-              color: "white",
-            }}
-            _active={{ bgColor: "grey", borderColor: "grey", color: "white" }}
-            onClick={props.onClose}
-          >
-            Close
-          </Button>
-          {hasItems && (
-            <Button
-              fontStyle="inherit"
-              cursor="pointer"
-              bgColor="grey"
-              color="white"
-              border="1px solid grey.500"
-              p="0.5rem 2rem"
-              borderRadius="25px"
-              ml="1rem"
-              _hover={{ bgColor: "white", borderColor: "grey", color: "grey" }}
-              _active={{ bgColor: "grey", borderColor: "grey", color: "white" }}
-            >
-              Order
-            </Button>
-          )}
-        </Box>
+        {isCheckout && <Checkout onCancel={props.onClose} />}
+        {!isCheckout && modalActions}
       </Modal>
     </>
   );

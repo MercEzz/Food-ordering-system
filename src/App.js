@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 
 import Cart from "./components/Cart/Cart";
@@ -16,9 +17,11 @@ const App = () => {
 
   return (
     <>
-      {cartIsShown && <Cart onClose={hideCartHandler} />}
-      <Header onShowCart={showCartHandler} />
-      <Meals />
+      <Box py="6" bgColor="blackAlpha.900">
+        {cartIsShown && <Cart onClose={hideCartHandler} />}
+        <Header onShowCart={showCartHandler} />
+        <Meals />
+      </Box>
     </>
   );
 };
